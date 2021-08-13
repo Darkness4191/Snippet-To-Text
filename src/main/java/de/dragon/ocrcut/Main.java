@@ -5,6 +5,7 @@ import de.dragon.ocrcut.selector.Selector;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
+import net.sourceforge.tess4j.util.LoadLibs;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,11 +19,15 @@ import java.net.URISyntaxException;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException, AWTException, URISyntaxException, UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException, TesseractException {
-        if(System.getenv("TESSDATA_PREFIX") == null) {
-            throw new TesseractException("Error: Please make sure the TESSDATA_PREFIX environment variable is set to your \"tessdata\" directory.");
-        }
-
         ITesseract tesseract = new Tesseract();
+
+        if(System.getenv("TESSDATA_PREFIX") == null) {
+            try {
+                tesseract.setDatapath(LoadLibs.extractTessResources("tessdata").getAbsolutePath());
+            } catch(Exception e) {
+                throw new TesseractException("Error: Please make sure the TESSDATA_PREFIX environment variable is set to your \"tessdata\" directory.");
+            }
+        }
 
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         JFrame frame = new JFrame();
