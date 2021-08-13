@@ -17,7 +17,11 @@ import java.net.URISyntaxException;
 
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException, AWTException, URISyntaxException, IOException, UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException, TesseractException {
+    public static void main(String[] args) throws InterruptedException, AWTException, URISyntaxException, UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException, TesseractException {
+        if(System.getenv("TESSDATA_PREFIX") == null) {
+            throw new TesseractException("Error: Please make sure the TESSDATA_PREFIX environment variable is set to your \"tessdata\" directory.");
+        }
+
         ITesseract tesseract = new Tesseract();
 
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
