@@ -42,7 +42,7 @@ public class Main {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
         frame.getRootPane().setOpaque(false);
-        frame.setBackground(new Color(0, 0, 0, 0));
+        frame.setBackground(new Color(0, 0, 0, 5));
         frame.setVisible(true);
 
         Selector selector = new Selector(frame);
