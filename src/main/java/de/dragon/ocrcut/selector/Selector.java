@@ -37,9 +37,16 @@ public class Selector extends JComponent implements MouseListener {
         if (start != null && current != null) {
             graphics.clearRect(0, 0, this.getWidth(), this.getHeight());
             graphics.setColor(Color.WHITE);
-            graphics.drawRect((int) start.getX(), (int) start.getY(), (int) (current.getX() - start.getX()), (int) (current.getY() - start.getY()));
+
+            int x = (int) Math.min(start.getX(), current.getX());
+            int y = (int) Math.min(start.getY(), current.getY());
+
+            int width = (int) Math.abs(start.getX() - current.getX());
+            int height = (int) Math.abs(start.getY() - current.getY());
+
+            graphics.drawRect(x, y, width, height);
             graphics.setColor(new Color(0, 0, 0, 40));
-            graphics.fillRect((int) start.getX(), (int) start.getY(), (int) (current.getX() - start.getX()), (int) (current.getY() - start.getY()));
+            graphics.fillRect(x, y, width, height);
         } else {
             graphics.clearRect(0, 0, this.getWidth(), this.getHeight());
         }
@@ -86,9 +93,8 @@ public class Selector extends JComponent implements MouseListener {
         this.setVisible(false);
         frame.revalidate();
 
-        blockingQueue.add(new Rectangle((int) startfin.getX() + 1, (int) startfin.getY() + 1,
-                (int) (currentfin.getX() - startfin.getX()), (int) (currentfin.getY() - startfin.getY())));
-
+        blockingQueue.add(new Rectangle((int) Math.min(startfin.getX(), currentfin.getX()), (int) Math.min(startfin.getY(), currentfin.getY()),
+                (int) Math.abs(startfin.getX() - currentfin.getX()), (int) Math.abs(startfin.getY() - currentfin.getY())));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package de.dragon.ocrcut;
 
+import de.dragon.ocrcut.optionpane.CopyOptionPane;
 import de.dragon.ocrcut.selector.ExitKeyListener;
 import de.dragon.ocrcut.selector.Selector;
 import net.sourceforge.tess4j.ITesseract;
@@ -16,11 +17,14 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException, AWTException, URISyntaxException, UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException, TesseractException, IOException {
+    private static String text;
+
+    public static void main(String[] args) throws InterruptedException, AWTException, URISyntaxException, UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException, TesseractException, IOException, InvocationTargetException {
         File f = LoadLibs.extractTessResources(LoadLibs.getTesseractLibName());
         System.setProperty("java.library.path", f.getAbsolutePath());
 
@@ -54,26 +58,27 @@ public class Main {
         Rectangle rec = selector.getSelected();
         frame.dispose();
 
-        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeAndWait(() -> {
             try {
                 BufferedImage image = new Robot().createScreenCapture(rec);
-                String text = tesseract.doOCR(image);
-
-                int res = JOptionPane.showOptionDialog(frame, "Do you want to copy \"" + text.strip() + "\" to your clipboard?", "Text snippet", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Yes", "Try again"}, "Yes");
-
-                if (res == JOptionPane.YES_OPTION) {
-                    StringSelection stringSelection = new StringSelection(text);
-                    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-                    clipboard.setContents(stringSelection, null);
-                } else if (res == JOptionPane.NO_OPTION) {
-                    Runtime.getRuntime().exec("java -jar " + new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath());
-                }
-
-                System.exit(0);
+                text = tesseract.doOCR(image);
             } catch (Exception e) {
                 e.printStackTrace();
+                System.exit(0);
             }
         });
+
+        int res = new CopyOptionPane().showOptions(text);
+
+        if (res == CopyOptionPane.YES) {
+            StringSelection stringSelection = new StringSelection(text);
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(stringSelection, null);
+        } else if (res == CopyOptionPane.AGAIN) {
+            Runtime.getRuntime().exec("java -jar " + new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath());
+        }
+
+        System.exit(0);
 
 
     }
