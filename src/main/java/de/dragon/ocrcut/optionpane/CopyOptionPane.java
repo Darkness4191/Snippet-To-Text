@@ -21,7 +21,7 @@ public class CopyOptionPane extends JFrame implements Options, GeneralConfigurat
 
         JTextPane pane = new JTextPane();
         JScrollPane scrollPane = new JScrollPane(pane);
-        pane.setFont(new Font(FONT_FAMILY, Font.PLAIN, (int) FONT_SIZE - 1));
+        pane.setFont(new Font(FONT_FAMILY, Font.PLAIN, (int) FONT_SIZE));
         pane.setEditable(false);
         pane.setText(panetext);
         pane.setBackground(this.getBackground());
