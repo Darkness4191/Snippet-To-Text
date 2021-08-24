@@ -14,8 +14,8 @@ public class CopyOptionPane extends JFrame implements Options, GeneralConfigurat
 
     public int showOptions(String panetext) throws InterruptedException {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
         this.setSize(400, 300);
+        this.setLocationRelativeTo(null);
         this.setTitle("Text Snippet");
         this.setVisible(true);
 
