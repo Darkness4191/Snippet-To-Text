@@ -17,6 +17,7 @@ public class Selector extends JComponent implements MouseListener {
     private JFrame frame;
 
     private boolean run = true;
+    private double sleep_time = 20;
 
     private ArrayBlockingQueue<Rectangle> blockingQueue = new ArrayBlockingQueue<>(5);
 
@@ -27,9 +28,15 @@ public class Selector extends JComponent implements MouseListener {
         this.setSize(frame.getSize());
         this.setOpaque(false);
         this.setBackground(new Color(0, 0, 0, 0));
-        this.setBorder(BorderFactory.createLineBorder(new Color(255, 0, 0, 170), 2));
 
         new Thread(this::run).start();
+    }
+
+    public Selector(JFrame frame, ArrayBlockingQueue<Rectangle> blockingQueue, int refresh_rate) {
+        this(frame);
+
+        this.blockingQueue = blockingQueue;
+        this.sleep_time = 1000D / refresh_rate;
     }
 
     @Override
@@ -50,6 +57,10 @@ public class Selector extends JComponent implements MouseListener {
         } else {
             graphics.clearRect(0, 0, this.getWidth(), this.getHeight());
         }
+
+        graphics.setColor(new Color(255, 0, 0, 170));
+        graphics.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
+        graphics.dispose();
     }
 
     public void run() {
