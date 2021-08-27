@@ -15,6 +15,7 @@ public class Optimizer {
     private HashMap<Integer, Integer> all_colors = new HashMap<>();
 
     //tries to turn pic with colors into "standard" white background text to improve ai results
+    //ARCHIVED
     public void optimize(BufferedImage image) throws IOException {
         for(int i = 0; i < image.getWidth(); i++) {
             for(int j = 0; j < image.getHeight(); j++) {

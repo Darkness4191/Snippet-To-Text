@@ -50,7 +50,7 @@ public class Main {
             SwingUtilities.invokeAndWait(() -> {
                 try {
                     BufferedImage image = new Robot().createScreenCapture(rec);
-                    new Optimizer().optimize(image);
+                    //new Optimizer().optimize(image);
                     text = tesseract.doOCR(image);
                 } catch (Exception e) {
                     e.printStackTrace();
