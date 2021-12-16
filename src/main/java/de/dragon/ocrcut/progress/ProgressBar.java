@@ -1,9 +1,11 @@
 package de.dragon.ocrcut.progress;
 
+import de.dragon.ocrcut.pane.GeneralConfiguration;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class ProgressBar {
+public class ProgressBar implements GeneralConfiguration {
 
     private JFrame frame;
 
@@ -21,6 +23,7 @@ public class ProgressBar {
 
         JLabel label = new JLabel("Loading Text...");
         label.setBorder(BorderFactory.createLineBorder(frame.getBackground(), 4));
+        label.setFont(new Font(FONT_FAMILY, Font.PLAIN, (int) FONT_SIZE));
 
         frame.add(label, BorderLayout.NORTH);
         frame.add(progressBar, BorderLayout.CENTER);

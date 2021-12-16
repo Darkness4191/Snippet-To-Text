@@ -48,16 +48,14 @@ public class Main {
 
             ProgressBar progressBar = new ProgressBar();
 
-            SwingUtilities.invokeAndWait(() -> {
-                try {
-                    BufferedImage image = new Robot().createScreenCapture(rec);
-                    //new Optimizer().optimize(image);
-                    text = tesseract.doOCR(image);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    System.exit(0);
-                }
-            });
+            try {
+                BufferedImage image = new Robot().createScreenCapture(rec);
+                //new Optimizer().optimize(image);
+                text = tesseract.doOCR(image);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.exit(0);
+            }
 
             progressBar.getFrame().dispose();
 
