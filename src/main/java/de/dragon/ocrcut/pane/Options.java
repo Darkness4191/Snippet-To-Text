@@ -1,4 +1,4 @@
-package de.dragon.ocrcut.optionpane;
+package de.dragon.ocrcut.pane;
 
 public interface Options {
 

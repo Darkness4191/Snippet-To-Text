@@ -1,7 +1,7 @@
 package de.dragon.ocrcut;
 
-import de.dragon.ocrcut.optimization.Optimizer;
-import de.dragon.ocrcut.optionpane.CopyOptionPane;
+import de.dragon.ocrcut.pane.CopyOptionPane;
+import de.dragon.ocrcut.progress.ProgressBar;
 import de.dragon.ocrcut.selector.SelectorFrames;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 
 public class Main {
 
@@ -47,6 +46,8 @@ public class Main {
 
             frames.dispose();
 
+            ProgressBar progressBar = new ProgressBar();
+
             SwingUtilities.invokeAndWait(() -> {
                 try {
                     BufferedImage image = new Robot().createScreenCapture(rec);
@@ -57,6 +58,8 @@ public class Main {
                     System.exit(0);
                 }
             });
+
+            progressBar.getFrame().dispose();
 
             int res = new CopyOptionPane().showOptions(text);
 
