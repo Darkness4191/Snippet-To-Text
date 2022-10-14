@@ -30,6 +30,7 @@ public class Main {
 
             ITesseract tesseract = new Tesseract();
             tesseract.setOcrEngineMode(1);
+            tesseract.setLanguage("eng");
 
             if(System.getenv("TESSDATA_PREFIX") == null) {
                 try {
@@ -50,7 +51,6 @@ public class Main {
 
             try {
                 BufferedImage image = new Robot().createScreenCapture(rec);
-                //new Optimizer().optimize(image);
                 text = tesseract.doOCR(image);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -62,7 +62,7 @@ public class Main {
             int res = new CopyOptionPane().showOptions(text);
 
             if (res == CopyOptionPane.YES) {
-                StringSelection stringSelection = new StringSelection(text);
+                StringSelection stringSelection = new StringSelection(text.trim());
                 Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                 clipboard.setContents(stringSelection, null);
                 System.exit(0);
